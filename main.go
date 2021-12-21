@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -28,13 +27,8 @@ func main() {
 	userService := user.NewService(userRepository)
 
 	campaignRepository := campaign.NewRepository(db)
-	campaigns, err := campaignRepository.FindByUserID(1)
-	if err != nil {
-		fmt.Println(err)
-	}
-	for _, campaign := range campaigns {
-		fmt.Println(campaign.CampaignImages[0].FileName, `<<<<<<<<<<<<`)
-	}
+	campaignService := campaign.NewService(campaignRepository)
+	campaignHandler := handler.NewCampaignHandler(campaignService)
 
 	authService := auth.NewService()
 
@@ -47,6 +41,8 @@ func main() {
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
 	api.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
+
+	api.GET("/campaigns", campaignHandler.GetCampaigns)
 
 	router.Run()
 }
