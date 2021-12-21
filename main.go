@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strings"
 
 	"github.com/Sanjungliu/golang-startup/auth"
+	"github.com/Sanjungliu/golang-startup/campaign"
 	"github.com/Sanjungliu/golang-startup/handler"
 	"github.com/Sanjungliu/golang-startup/helper"
 	"github.com/Sanjungliu/golang-startup/user"
@@ -24,6 +26,16 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+
+	campaignRepository := campaign.NewRepository(db)
+	campaigns, err := campaignRepository.FindByUserID(1)
+	if err != nil {
+		fmt.Println(err)
+	}
+	for _, campaign := range campaigns {
+		fmt.Println(campaign.CampaignImages[0].FileName, `<<<<<<<<<<<<`)
+	}
+
 	authService := auth.NewService()
 
 	userHandler := handler.NewUserHandler(userService, authService)
