@@ -93,3 +93,6 @@ type ImageData struct {
 	ImageURL  string `json:"image_url"`
 	IsPrimary bool   `json:"is_primary"`
 }
+
+type CreateCampaignFormatter struct {
+}
