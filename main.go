@@ -9,6 +9,7 @@ import (
 	"github.com/Sanjungliu/golang-startup/campaign"
 	"github.com/Sanjungliu/golang-startup/handler"
 	"github.com/Sanjungliu/golang-startup/helper"
+	"github.com/Sanjungliu/golang-startup/transaction"
 	"github.com/Sanjungliu/golang-startup/user"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -23,16 +24,19 @@ func main() {
 		log.Fatal(err)
 	}
 
+	authService := auth.NewService()
+
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+	userHandler := handler.NewUserHandler(userService, authService)
 
 	campaignRepository := campaign.NewRepository(db)
 	campaignService := campaign.NewService(campaignRepository)
 	campaignHandler := handler.NewCampaignHandler(campaignService)
 
-	authService := auth.NewService()
-
-	userHandler := handler.NewUserHandler(userService, authService)
+	transactionRepository := transaction.NewRepository(db)
+	transactionService := transaction.NewService(transactionRepository, campaignRepository)
+	transactionHandler := handler.NewTransactionHandler(transactionService)
 
 	router := gin.Default()
 	router.Static("/images", "./images")
@@ -48,6 +52,8 @@ func main() {
 	api.POST("/campaigns", authMiddleware(authService, userService), campaignHandler.CreateCampaign)
 	api.PUT("/campaigns/:id", authMiddleware(authService, userService), campaignHandler.UpdateCampaign)
 	api.POST("/campaign-images", authMiddleware(authService, userService), campaignHandler.UploadImage)
+
+	api.GET("campaigns/:id/transactions", authMiddleware(authService, userService), transactionHandler.GetTransactionByCampaignID)
 
 	router.Run()
 }
