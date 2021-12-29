@@ -3,7 +3,7 @@ package campaign
 import (
 	"time"
 
-	"github.com/Sanjungliu/golang-startup/user"
+	"github.com/Sanjungliu/golang-startup/internal/user"
 )
 
 type Campaign struct {

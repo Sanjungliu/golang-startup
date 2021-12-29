@@ -3,8 +3,8 @@ package transaction
 import (
 	"time"
 
-	"github.com/Sanjungliu/golang-startup/campaign"
-	"github.com/Sanjungliu/golang-startup/user"
+	"github.com/Sanjungliu/golang-startup/internal/campaign"
+	"github.com/Sanjungliu/golang-startup/internal/user"
 )
 
 type Transaction struct {
@@ -14,6 +14,7 @@ type Transaction struct {
 	Amount     int
 	Status     string
 	Code       string
+	PaymentURL string
 	User       user.User
 	Campaign   campaign.Campaign
 	CreatedAt  time.Time

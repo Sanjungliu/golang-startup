@@ -8,7 +8,7 @@ type UserFormatter struct {
 	Token      string `json:"token"`
 }
 
-func Parsing(user User, token string) UserFormatter {
+func FormatUser(user User, token string) UserFormatter {
 	return UserFormatter{
 		ID:         user.ID,
 		Name:       user.Name,

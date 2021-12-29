@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Sanjungliu/golang-startup/auth"
-	"github.com/Sanjungliu/golang-startup/helper"
-	"github.com/Sanjungliu/golang-startup/user"
+	"github.com/Sanjungliu/golang-startup/internal/auth"
+	"github.com/Sanjungliu/golang-startup/internal/user"
+	"github.com/Sanjungliu/golang-startup/pkg/helper"
 	"github.com/gin-gonic/gin"
 )
 
@@ -43,7 +43,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-	formatted := user.Parsing(newUser, token)
+	formatted := user.FormatUser(newUser, token)
 
 	response := helper.APIResponse("Account succeed to registered", http.StatusOK, "success", formatted)
 	c.JSON(http.StatusOK, response)
@@ -73,7 +73,7 @@ func (h *userHandler) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-	formatted := user.Parsing(loggedInUser, token)
+	formatted := user.FormatUser(loggedInUser, token)
 	response := helper.APIResponse("Succeed to Login", http.StatusOK, "success", formatted)
 	c.JSON(http.StatusOK, response)
 }
@@ -131,5 +131,15 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 	}
 	data := gin.H{"is_uploaded": true}
 	response := helper.APIResponse("Succeed to upload avatar", http.StatusOK, "success", data)
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *userHandler) FetchUser(c *gin.Context) {
+	currentUser := c.MustGet("currentUser").(user.User)
+
+	formatted := user.FormatUser(currentUser, "")
+
+	response := helper.APIResponse("Successfully fetch user data", http.StatusOK, "success", formatted)
+
 	c.JSON(http.StatusOK, response)
 }

@@ -1,6 +1,6 @@
 package campaign
 
-import "github.com/Sanjungliu/golang-startup/user"
+import "github.com/Sanjungliu/golang-startup/internal/user"
 
 type GetCampaignDetail struct {
 	ID int `uri:"id" binding:"required"`

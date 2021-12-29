@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Sanjungliu/golang-startup/campaign"
-	"github.com/Sanjungliu/golang-startup/helper"
-	"github.com/Sanjungliu/golang-startup/user"
+	"github.com/Sanjungliu/golang-startup/internal/campaign"
+	"github.com/Sanjungliu/golang-startup/internal/user"
+	"github.com/Sanjungliu/golang-startup/pkg/helper"
 	"github.com/gin-gonic/gin"
 )
 
