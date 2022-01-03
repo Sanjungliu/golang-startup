@@ -33,7 +33,7 @@ func buildRoute(app *app.App) http.Handler {
 		cors.Default(),
 	)
 
-	router.Static("/images", "./images")
+	// router.Static("/images", "./images")
 	api := router.Group("/api/v1")
 
 	api.POST("/sessions", userHandler.Login)
