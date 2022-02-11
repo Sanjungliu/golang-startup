@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -17,6 +18,7 @@ import (
 
 func main() {
 	var appsrvr *http.Server
+	fmt.Println("test")
 
 	config := config.Init()
 
